@@ -1,14 +1,37 @@
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Header from "./Header";
 import logo from "../assets/Netflix_Bg.jpg";
+import checkedValid_data from "../utils/checkedValid_Data";
+import ValidateCheck from "../utils/ValidateCheck";
 
 const Login = () => {
   const [isSignup, setisSignup] = useState(true);
+  const [email , setemail] = useState('');
+  const [password,setpassword] = useState('');
+  const [error,seterror] = useState('');
+
+
+//   useEffect(()=>{
+//     if(email!='') console.log(email);
+//   },[email])
+
   // true = signup hai new account banao
 
   const togglesignup = () => {
     setisSignup(!isSignup);
   };
+
+
+  const handleform = (e) => {
+     console.log(e.target)
+    // Validate the form Data
+    console.log(checkedValid_data);
+    const All_InputField = {email,password};
+    console.log(All_InputField);
+    ValidateCheck(All_InputField,seterror);
+    // Validation for check
+   
+  }
 
   return (
     //Login Container
@@ -37,6 +60,7 @@ const Login = () => {
  shadow-2xl
  bg-opacity-80
  "
+ onSubmit={(e)=>{e.preventDefault()}}
         >
           <h1 className="text-3xl font-bold mb-8">
             {isSignup ? "Sign in" : "Sign Up"}
@@ -88,7 +112,20 @@ focus:outline-none focus:ring-2 focus:ring-red-600 transition"
             placeholder="Enter Email Address"
             className="w-full p-3 mb-4 bg-gray-800/70 rounded-2xl
 focus:outline-none focus:ring-2 focus:ring-red-600 transition"
+           onChange={
+           (e) => {
+            setemail(e.target.value);
+           }
+        }
           />
+          {error && (
+          <span className="text-red-600  mb-3 block text-sm">
+  {error.email}
+</span>
+
+          )
+          }
+          
 
           {/* this is for password input */}
 
@@ -97,13 +134,25 @@ focus:outline-none focus:ring-2 focus:ring-red-600 transition"
             placeholder="Enter Password"
             className="w-full p-3 mb-4 bg-gray-800/70 rounded-2xl
 focus:outline-none focus:ring-2 focus:ring-red-600 transition"
+onChange={(e) => {
+    setpassword(e.target.value)
+}}
           />
+
+               {error && (
+          <span className="text-red-600  mb-3 block text-sm">
+  {error.password}
+</span>
+
+          )
+          }
 
           {/* Button for Sign in */}
 
           <button
             className="w-full bg-red-600
 py-3 rounded font-semibold hover:bg-red-700 transition duration-300"
+         onClick={handleform}
           >
             Sign In
           </button>
